@@ -1,0 +1,126 @@
+/* CSCI 261 Homework 05: High Low Number Guessing Game
+ *
+ * Author: Alex Patel
+ *
+ * This program plays the classic number guessing game High Low.
+ * In addition to the basic game, it limits the number of guesses,
+ * shows the expected range of guesses, validates each guess, and
+ * displays a few different messages at the end of the game.
+ */
+
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <string>
+#include <cmath>
+#include <ctime>
+using namespace std;
+
+// Define any constants you plan to use here.
+const string NAME = "Alex";
+const int MIN = 1;  
+const int MAX = 100;
+
+int main( )
+{
+  cout << NAME << "'s homework . . ." << endl << endl;
+
+  // Seed the random number generator with the system clock.
+  srand( (int)time( NULL ) );
+
+  // Obtain a random number between MIN and MAX, inclusive.
+  int number = rand() % ( MAX - MIN + 1 ) + MIN;
+
+  // For testing purposes, show the random number to the user.
+  cout << "Hint: The number is " << number << "." << endl << endl;
+
+  int guess;
+
+  // Get the first guess before the loop starts. Note it is possible to guess
+  // correctly on the first guess, in which case the loop does not execute.
+  cout << "Guess a number between " << MIN << " and " << MAX << ": ";
+  cin >> guess;
+
+ 
+  int limit = 1;           // Declare the integer "limit" so we can count the number of guesses the users makes.
+  int newMinLimit = MIN;   // newMinLimit is equal to MIN, so we can put a range on the guesses.
+  int newMaxLimit = MAX;   // newMaxLimit is equal to MAX, so we can put a range on the guesses.
+  while( guess != number ) // While your guess does not equal the correct number, do the following.
+  {
+    if( limit < 7)
+	  {
+		  limit++;
+	
+      // Notice this if-statement does NOT need to test if the guess is correct.
+      // If it is correct, the loop prevents the program from getting to this point.
+		  if( guess < number ) // if your guess is less than the correct number, enter the if loop.
+		  {
+		    cout << guess << " is too low.  ";
+		    newMinLimit = guess + 1;
+		    cout << "Guess a number between " << newMinLimit << " and " << newMaxLimit << ": ";
+		    cin >> guess;	
+			  if ( guess < newMinLimit ) // if your guess is less than the range.
+			  {
+				  cout << "Invalid guess." << endl;
+			  }
+        else if ( guess > newMaxLimit ) // if your guess is greater than the range.
+			  {
+				  cout << "Invalid guess." << endl;
+			  }
+      }
+    
+		  else if ( guess > number ) // if your guess is greater than the correct number, enter the else if loop.
+		  {
+		    cout << guess << " is too high. ";
+		    newMaxLimit = guess - 1;
+		    cout << "Guess a number between " << newMinLimit << " and " << newMaxLimit << ": ";
+		    cin >> guess;
+			  if ( guess > newMaxLimit )  // if your guess is greater than the range.
+			  {
+				  cout << "Invalid guess." << endl;
+			  }
+			  else if ( guess < newMinLimit ) // if your guess is less than the range.
+			  {
+				  cout << "Invalid guess." << endl;
+			  }
+      }
+    }
+    else if ( guess == number )
+    {
+      cout << "Whoa! That was a close one! You won in seven tries!" << endl ;
+    }
+		
+    
+    // If the user does not guess the number in 7 tries, output the statement:
+	  else 
+	  {
+		  cout << "You lose! The number was " << number << " ." << endl;
+		  break;
+	  } // End of initial if statement
+  } // End of While statement
+
+	// If the user correctly guesses the number in less than 7 guesses, it will follow this if statement.
+  if ( limit < 2 ) // if the user takes less than 3 guesses to find the correct number, output the statement.
+  {
+	  cout << "You won in " << limit << " tries." << "You are a stud!" << endl;
+  }
+  else if ( limit == 3 ) // if the user takes 4 guesses, output the statement.
+  {
+	  cout << "You won in " << limit << " tries." << "I think you got lucky!" << endl;
+  }
+  else if ( limit == 4 ) // if the user takes 5 guesses, output the statement.
+  {
+	  cout << "You won in " << limit << " tries." << "That was a good, solid strategy." << endl;
+  }
+  else if ( limit == 5  ) // if the user takes 6 guesses, output the statement.
+  {
+	  cout << "You won in " << limit << " tries." << "Good job!" << endl;
+  }
+  else if ( limit == 6 ) // if the user takes 7 guesses, output the statement.
+  {
+	  cout << "You won in " << limit << " tries." << "Whoa that was a close one!" << endl;
+  } 
+  
+
+  return EXIT_SUCCESS;
+}
